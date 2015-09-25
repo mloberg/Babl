@@ -14,5 +14,8 @@
     },
     "autoload": {
         "psr-4": { "Mlo\\Babl\\": "src/" }
-    }
+    },
+    "bin": [
+    	"bin/babl"
+    ]
 }
