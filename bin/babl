@@ -6,7 +6,8 @@ require __DIR__ . '/../vendor/autoload.php';
 use Mlo\Babl\Command;
 use Symfony\Component\Console\Application;
 
-$application = new Application('babl', '0.1.0');
-$application->add(new Command\ConvertCommand());
-
+$application = new Application('babl', '0.2.0');
+$command = new Command\ConvertCommand();
+$application->add($command);
+$application->setDefaultCommand($command->getName());
 $application->run();
