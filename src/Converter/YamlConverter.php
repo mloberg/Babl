@@ -1,8 +1,7 @@
 <?php
-/**
- * YamlConverter.php
- *
- * @package Mlo\Babl
+/*
+ * Copyright (c) 2015 Matthew Loberg
+ * Distributed under the MIT License (http://opensource.org/licenses/MIT)
  */
 
 namespace Mlo\Babl\Converter;
