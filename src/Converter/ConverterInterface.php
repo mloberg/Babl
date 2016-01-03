@@ -14,19 +14,22 @@ namespace Mlo\Babl\Converter;
 interface ConverterInterface
 {
     /**
-     * Add translation to output
+     * Convert translation data
      *
-     * @param string $key
-     * @param string $value
+     * @param \Traversable $data Translation data
+     *
+     * @return string Processed content
      */
-    public function add($key, $value);
+    public function convert(\Traversable $data);
 
     /**
-     * Get output
+     * Returns whether this class supports the given format
      *
-     * @return string
+     * @param string $format
+     *
+     * @return bool
      */
-    public function getContent();
+    public function supports($format);
 
     /**
      * Get extension

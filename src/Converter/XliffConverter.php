@@ -14,22 +14,9 @@ namespace Mlo\Babl\Converter;
 class XliffConverter implements ConverterInterface
 {
     /**
-     * @var \DOMDocument
+     * @inheritDoc
      */
-    private $dom;
-
-    /**
-     * @var \DOMElement
-     */
-    private $bodyEl;
-
-    /**
-     * Constructor
-     *
-     * @param string $lang
-     * @param string $filename
-     */
-    public function __construct($lang = 'en', $name = '')
+    public function convert(\Traversable $data)
     {
         $dom = new \DOMDocument('1.0');
         $dom->formatOutput = true;
@@ -49,32 +36,27 @@ class XliffConverter implements ConverterInterface
         $fileEl->appendChild($bodyEl);
         $rootEl->appendChild($fileEl);
 
-        $this->dom = $dom;
-        $this->bodyEl = $bodyEl;
+        foreach ($data as $key => $value) {
+            $transUnitEl = $dom->createElement('trans-unit');
+            $transUnitEl->setAttribute('id', $key);
+            $sourceEl = $dom->createElement('source');
+            $sourceEl->nodeValue = $key;
+            $targetEl = $dom->createElement('target');
+            $targetEl->nodeValue = trim($value);
+            $transUnitEl->appendChild($sourceEl);
+            $transUnitEl->appendChild($targetEl);
+            $bodyEl->appendChild($transUnitEl);
+        }
+
+        return $dom->saveXml();
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function add($key, $value)
+    public function supports($format)
     {
-        $transUnitEl = $this->dom->createElement('trans-unit');
-        $transUnitEl->setAttribute('id', $key);
-        $sourceEl = $this->dom->createElement('source');
-        $sourceEl->nodeValue = $key;
-        $targetEl = $this->dom->createElement('target');
-        $targetEl->nodeValue = trim($value);
-        $transUnitEl->appendChild($sourceEl);
-        $transUnitEl->appendChild($targetEl);
-        $this->bodyEl->appendChild($transUnitEl);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContent()
-    {
-        return $this->dom->saveXml();
+        return in_array(strtolower($format), ['xliff', 'xlf']);
     }
 
     /**

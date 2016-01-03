@@ -16,24 +16,19 @@ use Symfony\Component\Yaml\Yaml;
 class YamlConverter implements ConverterInterface
 {
     /**
-     * @var array
+     * @inheritDoc
      */
-    private $data = [];
-
-    /**
-     * {@inheritdoc}
-     */
-    public function add($key, $value)
+    public function convert(\Traversable $data)
     {
-        $this->data[$key] = $value;
+        return Yaml::dump((array) $data);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function getContent()
+    public function supports($format)
     {
-        return YAML::dump($this->data);
+        return in_array(strtolower($format), ['yml', 'yaml']);
     }
 
     /**

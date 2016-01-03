@@ -14,24 +14,19 @@ namespace Mlo\Babl\Converter;
 class PhpConverter implements ConverterInterface
 {
     /**
-     * @var array
+     * @inheritDoc
      */
-    private $data = [];
-
-    /**
-     * {@inheritdoc}
-     */
-    public function add($key, $value)
+    public function convert(\Traversable $data)
     {
-        $this->data[$key] = $value;
+        return sprintf("<?php\n\nreturn %s;", var_export((array) $data, true));
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function getContent()
+    public function supports($format)
     {
-        return sprintf("<?php\n\nreturn %s;", var_export($this->data, true));
+        return $this->getExtension() === strtolower($format);
     }
 
     /**
