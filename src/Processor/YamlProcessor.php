@@ -13,27 +13,23 @@ use Symfony\Component\Yaml\Yaml;
  *
  * @author Matthew Loberg <loberg.matt@gmail.com>
  */
-class YamlProcessor implements \IteratorAggregate
+class YamlProcessor implements ProcessorInterface
 {
     /**
-     * @var string
+     * @inheritDoc
      */
-    private $filename;
-
-    /**
-     * @param string $filename
-     */
-    public function __construct($filename)
+    public function process($file)
     {
-        $this->filename = $filename;
+        $data = Yaml::parse(file_get_contents($file));
+
+        return new \ArrayIterator($data);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function getIterator()
+    public function supports($format)
     {
-        $data = Yaml::parse(file_get_contents($this->filename));
-        return new \ArrayIterator($data);
+        return in_array(strtolower($format), ['yml', 'yaml']);
     }
 }

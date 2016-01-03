@@ -11,33 +11,20 @@ namespace Mlo\Babl\Processor;
  *
  * @author Matthew Loberg <loberg.matt@gmail.com>
  */
-class XliffProcessor implements \IteratorAggregate
+class XliffProcessor implements ProcessorInterface
 {
     /**
-     * @var \DOMDocument
+     * @inheritDoc
      */
-    private $doc;
-
-    /**
-     * @param string $filename
-     */
-    public function __construct($filename)
+    public function process($file)
     {
         $doc = new \DOMDocument();
-        $doc->loadXML(file_get_contents($filename));
+        $doc->loadXML(file_get_contents($file));
 
-        $this->doc = $doc;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getIterator()
-    {
         $data = [];
 
         /** @var \DOMElement $el */
-        foreach ($this->doc->getElementsByTagName("trans-unit") as $el) {
+        foreach ($doc->getElementsByTagName("trans-unit") as $el) {
             $key = $el->getElementsByTagName('source')->item(0)->textContent;
             $value = $el->getElementsByTagName('target')->item(0)->textContent;
 
@@ -45,5 +32,13 @@ class XliffProcessor implements \IteratorAggregate
         }
 
         return new \ArrayIterator($data);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supports($format)
+    {
+        return in_array(strtolower($format), ['xliff', 'xlf']);
     }
 }
