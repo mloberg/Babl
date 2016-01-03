@@ -6,8 +6,12 @@
 
 namespace Mlo\Babl\Command;
 
-use Mlo\Babl\Converter\ConverterInterface;
+use Mlo\Babl\Converter\ConverterResolver;
+use Mlo\Babl\Converter\PhpConverter;
+use Mlo\Babl\Converter\XliffConverter;
+use Mlo\Babl\Converter\YamlConverter;
 use Mlo\Babl\Processor\PhpProcessor;
+use Mlo\Babl\Processor\ProcessorResolver;
 use Mlo\Babl\Processor\XliffProcessor;
 use Mlo\Babl\Processor\YamlProcessor;
 use Symfony\Component\Console\Command\Command;
@@ -24,20 +28,6 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class ConvertCommand extends Command
 {
-    /**
-     * Format to converter map
-     *
-     * @var array
-     */
-    private $converterMap = [
-        'xliff' => 'Mlo\Babl\Converter\XliffConverter',
-        'xlif'  => 'Mlo\Babl\Converter\XliffConverter',
-        'xlf'   => 'Mlo\Babl\Converter\XliffConverter',
-        'yaml'  => 'Mlo\Babl\Converter\YamlConverter',
-        'yml'   => 'Mlo\Babl\Converter\YamlConverter',
-        'php'   => 'Mlo\Babl\Converter\PhpConverter',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -67,43 +57,39 @@ class ConvertCommand extends Command
         $filename = basename($file);
         $dir = dirname($file);
 
-        // Get data from filename: messages.en.yml
-        preg_match('&^(.*?)\.(.*?)\.(.*)$&', $filename, $matches);
-        list($fullName, $name, $targetLang, $extension) = $matches;
+        $fileParts = explode('.', $filename);
+        $extension = array_pop($fileParts);
+        $language  = array_pop($fileParts);
+        $name      = implode('.', $fileParts);
 
-        // Target format
-        $format = $input->getOption('format');
+        $processorFactory = new ProcessorResolver([
+            new YamlProcessor(),
+            new XliffProcessor(),
+            new PhpProcessor(),
+        ]);
 
-        // Make sure we support that format
-        if (!array_key_exists($format, $this->converterMap)) {
-            $output->writeln(sprintf("<error>Unsupported format %s</error>", $format));
-            exit(1);
+        $processor = $processorFactory->resolve($extension);
+
+        if (false === $processor) {
+            throw new \RuntimeException(sprintf('Unknown extension "%s".', $extension));
         }
 
-        /** @var ConverterInterface $converter */
-        $converter = new $this->converterMap[$format]($targetLang, $name);
+        $converterFactory = new ConverterResolver([
+            new XliffConverter(),
+            new YamlConverter(),
+            new PhpConverter(),
+        ]);
 
-        // Load data by extension
-        if ($extension === 'yml' || $extension === 'yaml') {
-            $data = new YamlProcessor($file);
-        } elseif ($extension === 'xliff' || $extension === 'xlif' || $extension === 'xlf') {
-            $data = new XliffProcessor($file);
-        } elseif ($extension === 'php') {
-            $data = new PhpProcessor($file);
-        } else {
-            $output->writeln(sprintf('<error>Unknown extension %s</error>', $extension));
-            exit(1);
+        $converter = $converterFactory->resolve($input->getOption('format'));
+
+        if (false === $converter) {
+            throw new \RuntimeException(sprintf('Unknown format "%s".', $input->getOption('format')));
         }
 
-        // Convert data
-        foreach ($data as $key => $value) {
-            $converter->add($key, $value);
-        }
+        $data = $processor->process($file);
 
-        // Save the file with a different extension
-        $outFile = sprintf('%s/%s.%s.%s', $dir, $name, $targetLang, $converter->getExtension());
+        $outFile = sprintf('%s/%s.%s.%s', $dir, $name, $language, $converter->getExtension());
 
-        // Confirm if the file already exists
         $helper = $this->getHelper('question');
         $text = sprintf("Target file %s exists. Overwrite this file? [yn] ", $outFile);
         $question = new ConfirmationQuestion($text, false);
@@ -113,7 +99,7 @@ class ConvertCommand extends Command
         }
 
         // Save the file
-        file_put_contents($outFile, $converter->getContent());
+        file_put_contents($outFile, $converter->convert($data));
 
         $output->writeln(sprintf('<info>File converted to %s.</info>', $outFile));
     }
