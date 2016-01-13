@@ -186,11 +186,11 @@ namespace
         throw $e;
     }
 
-    echo " - Making Box executable...$n";
+    echo " - Making Babl executable...$n";
 
     @chmod($item->name, 0755);
 
-    echo "{$n}Babl installed!$n";
+    echo "{$n}Babl installed at {$item->name}!$n";
 
     /**
      * Checks a condition, outputs a message, and exits if failed.

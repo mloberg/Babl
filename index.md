@@ -9,8 +9,39 @@ Babl is a tool for working with translation files in Symfony projects.
 
 ## Installation
 
-_Coming soon_
+There are a couple ways you can install Babl.
+
+### As a Phar (Recommended)
+
+    $ curl http://mloberg.github.io/Babl/installer.php | php
+
+This will place a `babl.phar` file in your current directory. From there you can
+move it someplace easier to access (`/usr/local/bin`) and rename it to just
+`babl`.
+
+### Globally Through Composer
+
+If you already have tools installed globally through composer, this is probably
+the best way to go.
+
+    $ composer global require mlo/babl --prefer-source
+
+### As a Composer Dependency
+
+You can also install Babl through composer so it's always available in your
+project.
+
+    $ composer require --dev mlo/babl
 
 ## Usage
 
-_Coming soon_
+To see the current version of Babl
+
+    $ babl --version
+
+Currently there is only one command to convert translation files between
+different formats. For example if you have `messages.en.yml`, but want an XLIFF.
+
+    $ babl --format xliff app/Resources/translations/messages.en.yml
+
+The default format is `xliff`, but there is also `yml` and `php`.
