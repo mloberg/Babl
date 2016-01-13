@@ -1,0 +1,11 @@
+# Site settings
+maintainer: mloberg
+project: Babl
+description: Toolkit for working with translations in Symfony
+project_url: https://github.com/mloberg/Babl
+maintainer_url: https://github.com/mloberg
+
+# Build settings
+markdown: kramdown
+
+exclude: ["README.md", "Gemfile", "Gemfile.lock"]
