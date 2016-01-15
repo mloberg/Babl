@@ -12,8 +12,14 @@
         "symfony/yaml": "^2.6",
         "symfony/console": "^2.6"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
     "autoload": {
         "psr-4": { "Mlo\\Babl\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Mlo\\Babl\\Tests\\": "tests/" }
     },
     "bin": [
     	"bin/babl"
