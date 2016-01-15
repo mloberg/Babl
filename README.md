@@ -1,5 +1,7 @@
 # Babl
 
+[![Build Status](https://travis-ci.org/mloberg/Babl.svg?branch=master)](https://travis-ci.org/mloberg/Babl)
+
 Toolkit for working with translation files in Symfony.
 
 ## Requirements
