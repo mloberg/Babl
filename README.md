@@ -1,6 +1,9 @@
 # Babl
 
+[![Latest Stable Version](https://poser.pugx.org/mlo/babl/v/stable)](https://packagist.org/packages/mlo/babl)
+[![License](https://poser.pugx.org/mlo/babl/license)](https://packagist.org/packages/mlo/babl)
 [![Build Status](https://travis-ci.org/mloberg/Babl.svg?branch=master)](https://travis-ci.org/mloberg/Babl)
+[![Coverage Status](https://coveralls.io/repos/mloberg/Babl/badge.svg?branch=master&service=github)](https://coveralls.io/github/mloberg/Babl?branch=master)
 
 Toolkit for working with translation files in Symfony.
 

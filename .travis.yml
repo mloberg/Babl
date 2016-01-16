@@ -21,3 +21,6 @@ script:
   - mkdir -p build/logs
   - vendor/bin/phpunit
 
+after_success:
+  - composer global require satooshi/php-coveralls
+  - travis_retry php $HOME/.composer/vendor/bin/coveralls -v
