@@ -16,7 +16,7 @@ class XliffConverter implements ConverterInterface
     /**
      * @inheritDoc
      */
-    public function convert(\Traversable $data)
+    public function convert(\Traversable $data, $name = 'messages', $lang = 'en')
     {
         $dom = new \DOMDocument('1.0');
         $dom->formatOutput = true;
