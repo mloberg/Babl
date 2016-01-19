@@ -21,7 +21,7 @@ class XliffConverter implements ConverterInterface
         $dom = new \DOMDocument('1.0');
         $dom->formatOutput = true;
         $dom->encoding = 'utf-8';
-        $dom->preserveWhitespace = true;
+        $dom->preserveWhiteSpace = true;
         $rootEl = $dom->createElement('xliff');
         $rootEl->setAttribute('version', '1.2');
         $rootEl->setAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:1.2');
