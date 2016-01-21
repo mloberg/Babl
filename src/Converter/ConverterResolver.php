@@ -1,7 +1,16 @@
 <?php
+/*
+ * Copyright (c) 2016 Matthew Loberg
+ * Distributed under the MIT License (http://opensource.org/licenses/MIT)
+ */
 
 namespace Mlo\Babl\Converter;
 
+/**
+ * ConverterResolver
+ *
+ * @author Matthew Loberg <loberg.matt@gmail.com>
+ */
 class ConverterResolver
 {
     /**
