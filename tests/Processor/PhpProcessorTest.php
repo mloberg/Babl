@@ -41,11 +41,11 @@ class PhpProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::process
      *
      * @expectedException \RuntimeException
-     * @expectedExceptionMessageRegExp /^File "[\w\/]+\/Processor\/ProcessorResolverTest.php" did not return an array\.$/
+     * @expectedExceptionMessageRegExp /^File "[\w\/\.]+\/data\/invalid.en.php" did not return an array\.$/
      */
     public function testProcessThrowsExceptionOnInvalidData()
     {
-        $this->processor->process(__DIR__ . '/ProcessorResolverTest.php');
+        $this->processor->process(__DIR__ . '/../data/invalid.en.php');
     }
 
     /**
