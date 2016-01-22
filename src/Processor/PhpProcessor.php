@@ -21,7 +21,7 @@ class PhpProcessor implements ProcessorInterface
         $data = require($file);
 
         if (!is_array($data)) {
-            throw new \RuntimeException(sprintf("%s did not return an array", $file));
+            throw new \RuntimeException(sprintf('File "%s" did not return an array.', $file));
         }
 
         return new \ArrayIterator($data);
