@@ -4,3 +4,5 @@ composer.lock
 vendor
 babl.phar
 box.json
+tests/data/translations/*
+!tests/data/translations/.gitkeep
