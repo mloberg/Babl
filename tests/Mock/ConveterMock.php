@@ -34,7 +34,7 @@ class ConverterMock implements ConverterInterface
     /**
      * @inheritDoc
      */
-    public function convert(\Traversable $data, $name = 'messages', $lang = 'en')
+    public function convert(\Traversable $data, $source = null, $name = 'messages', $lang = 'en')
     {
         // TODO: Implement convert() method.
     }

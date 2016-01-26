@@ -47,7 +47,7 @@ class XliffConverterTest extends \PHPUnit_Framework_TestCase
 
 EOF;
 
-        $this->assertEquals($expected, $this->converter->convert(new \ArrayIterator($data)));
+        $this->assertEquals($expected, $this->converter->convert(new \ArrayIterator($data), 'messages.en.xliff'));
     }
 
     /**

@@ -16,7 +16,7 @@ class XliffConverter implements ConverterInterface
     /**
      * @inheritDoc
      */
-    public function convert(\Traversable $data, $name = 'messages', $lang = 'en')
+    public function convert(\Traversable $data, $source = null, $name = 'messages', $lang = 'en')
     {
         $dom = new \DOMDocument('1.0');
         $dom->formatOutput = true;
@@ -31,7 +31,11 @@ class XliffConverter implements ConverterInterface
         $fileEl->setAttribute('source-language', $lang);
         $fileEl->setAttribute('target-language', $lang);
         $fileEl->setAttribute('datatype', 'plaintext');
-        $fileEl->setAttribute('original', $name.'.en.xliff');
+
+        if ($source) {
+            $fileEl->setAttribute('original', $source);
+        }
+
         $bodyEl = $dom->createElement('body');
         $fileEl->appendChild($bodyEl);
         $rootEl->appendChild($fileEl);

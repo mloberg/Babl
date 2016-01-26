@@ -18,7 +18,7 @@ class YamlConverter implements ConverterInterface
     /**
      * @inheritDoc
      */
-    public function convert(\Traversable $data, $name = 'messages', $lang = 'en')
+    public function convert(\Traversable $data, $source = null, $name = 'messages', $lang = 'en')
     {
         return Yaml::dump((array) $data);
     }

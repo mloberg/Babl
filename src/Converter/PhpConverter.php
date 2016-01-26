@@ -16,7 +16,7 @@ class PhpConverter implements ConverterInterface
     /**
      * @inheritDoc
      */
-    public function convert(\Traversable $data, $name = 'messages', $lang = 'en')
+    public function convert(\Traversable $data, $source = null, $name = 'messages', $lang = 'en')
     {
         return sprintf("<?php\n\nreturn %s;", var_export((array) $data, true));
     }

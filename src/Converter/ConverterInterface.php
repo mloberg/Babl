@@ -16,13 +16,14 @@ interface ConverterInterface
     /**
      * Convert translation data
      *
-     * @param \Traversable $data Translation data
-     * @param string       $name Translation name
-     * @param string       $lang Translation language
+     * @param \Traversable $data   Translation data
+     * @param string|null  $source Translation source
+     * @param string       $name   Translation name
+     * @param string       $lang   Translation language
      *
      * @return string Processed content
      */
-    public function convert(\Traversable $data, $name = 'messages', $lang = 'en');
+    public function convert(\Traversable $data, $source = null, $name = 'messages', $lang = 'en');
 
     /**
      * Returns whether this class supports the given format
