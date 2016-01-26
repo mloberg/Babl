@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="validations.en.xliff">
+    <body>
+      <trans-unit id="text.min_length">
+        <source>text.min_length</source>
+        <target>Text is not long enough</target>
+      </trans-unit>
+      <trans-unit id="text.max_length">
+        <source>text.max_length</source>
+        <target>Text is too long</target>
+      </trans-unit>
+      <trans-unit id="text.email">
+        <source>text.email</source>
+        <target>Text is not a valid email</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
