@@ -40,7 +40,7 @@ return array (
 );
 EOF;
 
-        $this->assertEquals($expected, $this->converter->convert(new \ArrayIterator($data)));
+        $this->assertEquals($expected, $this->converter->convert($data));
     }
 
     /**
