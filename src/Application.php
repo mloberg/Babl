@@ -20,7 +20,7 @@ use Symfony\Component\Console\Input\InputInterface;
 class Application extends \Symfony\Component\Console\Application
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getCommandName(InputInterface $input)
     {
@@ -28,7 +28,7 @@ class Application extends \Symfony\Component\Console\Application
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getDefaultCommands()
     {
@@ -39,7 +39,7 @@ class Application extends \Symfony\Component\Console\Application
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDefinition()
     {

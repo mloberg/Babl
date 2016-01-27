@@ -19,7 +19,7 @@ class PhpProcessorTest extends \PHPUnit_Framework_TestCase
     private $processor;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function setUp()
     {
@@ -33,7 +33,7 @@ class PhpProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $data = $this->processor->process(__DIR__ . '/../data/messages.en.php');
 
-        $this->assertInstanceOf('Traversable', $data);
+        $this->assertInternalType('array', $data);
         $this->assertEquals('bar', $data['foo']);
     }
 

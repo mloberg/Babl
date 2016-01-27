@@ -16,7 +16,7 @@ use Symfony\Component\Yaml\Yaml;
 class YamlProcessor implements ProcessorInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function process($file)
     {
@@ -26,7 +26,7 @@ class YamlProcessor implements ProcessorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supports($format)
     {

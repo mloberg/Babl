@@ -14,7 +14,7 @@ namespace Mlo\Babl\Converter;
 class PhpConverter implements ConverterInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function convert(\Traversable $data, $source = null, $name = 'messages', $lang = 'en')
     {
@@ -22,7 +22,7 @@ class PhpConverter implements ConverterInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supports($format)
     {

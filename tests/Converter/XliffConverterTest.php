@@ -19,7 +19,7 @@ class XliffConverterTest extends \PHPUnit_Framework_TestCase
     private $converter;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function setUp()
     {

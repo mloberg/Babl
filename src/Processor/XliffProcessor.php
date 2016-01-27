@@ -14,7 +14,7 @@ namespace Mlo\Babl\Processor;
 class XliffProcessor implements ProcessorInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function process($file)
     {
@@ -35,7 +35,7 @@ class XliffProcessor implements ProcessorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supports($format)
     {

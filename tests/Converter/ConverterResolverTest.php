@@ -21,7 +21,7 @@ class ConverterResolverTest extends \PHPUnit_Framework_TestCase
     private $resolver;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setUp()
     {

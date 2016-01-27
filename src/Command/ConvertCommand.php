@@ -40,7 +40,7 @@ class ConvertCommand extends Command
             ->addOption(
                 'format',
                 'f',
-                InputArgument::OPTIONAL,
+                InputOption::VALUE_OPTIONAL,
                 'Format to save as',
                 'xliff'
             )
@@ -55,32 +55,32 @@ class ConvertCommand extends Command
         $file = $input->getArgument('file');
 
         $filename = basename($file);
-        $dir = dirname($file);
+        $dir      = dirname($file);
 
         $fileParts = explode('.', $filename);
         $extension = array_pop($fileParts);
         $language  = array_pop($fileParts);
         $name      = implode('.', $fileParts);
 
-        $processorFactory = new ProcessorResolver([
+        $processorResolver = new ProcessorResolver([
             new YamlProcessor(),
             new XliffProcessor(),
             new PhpProcessor(),
         ]);
 
-        $processor = $processorFactory->resolve($extension);
+        $processor = $processorResolver->resolve($extension);
 
         if (false === $processor) {
             throw new \RuntimeException(sprintf('Unknown extension "%s".', $extension));
         }
 
-        $converterFactory = new ConverterResolver([
+        $converterResolver = new ConverterResolver([
             new XliffConverter(),
             new YamlConverter(),
             new PhpConverter(),
         ]);
 
-        $converter = $converterFactory->resolve($input->getOption('format'));
+        $converter = $converterResolver->resolve($input->getOption('format'));
 
         if (false === $converter) {
             throw new \RuntimeException(sprintf('Unknown format "%s".', $input->getOption('format')));

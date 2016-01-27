@@ -14,7 +14,7 @@ namespace Mlo\Babl\Processor;
 class PhpProcessor implements ProcessorInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function process($file)
     {
@@ -28,7 +28,7 @@ class PhpProcessor implements ProcessorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supports($format)
     {

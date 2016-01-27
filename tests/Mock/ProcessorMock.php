@@ -26,7 +26,7 @@ class ProcessorMock implements ProcessorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function process($file)
     {
@@ -34,7 +34,7 @@ class ProcessorMock implements ProcessorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supports($format)
     {

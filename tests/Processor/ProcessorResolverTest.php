@@ -21,7 +21,7 @@ class ProcessorResolverTest extends \PHPUnit_Framework_TestCase
     private $resolver;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function setUp()
     {

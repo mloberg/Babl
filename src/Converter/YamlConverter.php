@@ -16,7 +16,7 @@ use Symfony\Component\Yaml\Yaml;
 class YamlConverter implements ConverterInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function convert(\Traversable $data, $source = null, $name = 'messages', $lang = 'en')
     {
@@ -24,7 +24,7 @@ class YamlConverter implements ConverterInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supports($format)
     {

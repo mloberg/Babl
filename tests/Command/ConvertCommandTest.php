@@ -32,7 +32,7 @@ class ConvertCommandTest extends \PHPUnit_Framework_TestCase
     private $testDir;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function setUp()
     {
