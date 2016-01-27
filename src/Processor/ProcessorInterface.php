@@ -18,7 +18,7 @@ interface ProcessorInterface
      *
      * @param string $file
      *
-     * @return \Traversable
+     * @return array
      */
     public function process($file);
 

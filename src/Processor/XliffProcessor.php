@@ -31,7 +31,7 @@ class XliffProcessor implements ProcessorInterface
             $data[$key] = $value;
         }
 
-        return new \ArrayIterator($data);
+        return $data;
     }
 
     /**

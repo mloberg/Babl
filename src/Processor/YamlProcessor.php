@@ -22,7 +22,7 @@ class YamlProcessor implements ProcessorInterface
     {
         $data = Yaml::parse(file_get_contents($file));
 
-        return new \ArrayIterator($data);
+        return $data;
     }
 
     /**

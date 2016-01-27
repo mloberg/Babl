@@ -24,7 +24,7 @@ class PhpProcessor implements ProcessorInterface
             throw new \RuntimeException(sprintf('File "%s" did not return an array.', $file));
         }
 
-        return new \ArrayIterator($data);
+        return $data;
     }
 
     /**
