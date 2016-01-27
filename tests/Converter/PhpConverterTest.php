@@ -38,6 +38,7 @@ class PhpConverterTest extends \PHPUnit_Framework_TestCase
 return array (
   'foo' => 'bar',
 );
+
 EOF;
 
         $this->assertEquals($expected, $this->converter->convert($data));
