@@ -1,11 +1,14 @@
 #!/usr/bin/env php
 <?php
 
-use Mlo\Babl\Application;
 use Mlo\Babl\Command;
+use Symfony\Component\Console\Application;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 $application = new Application('babl', '0.2.0');
-$command = new Command\ConvertCommand();
+$application->addCommands([
+    new Command\ConvertCommand(),
+    new Command\AddCommand(),
+]);
 $application->run();
