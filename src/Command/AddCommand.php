@@ -17,6 +17,7 @@ use Mlo\Babl\Processor\YamlProcessor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
@@ -39,6 +40,12 @@ class AddCommand extends Command
             ->addArgument('file', InputArgument::REQUIRED, 'File to add translation entry to')
             ->addArgument('key', InputArgument::REQUIRED, 'Translation key')
             ->addArgument('value', InputArgument::OPTIONAL, 'Translation value (if none given, it will prompt)')
+            ->addOption(
+                'force',
+                null,
+                InputOption::VALUE_NONE,
+                'Will overwrite key if it exists without asking.'
+            )
         ;
     }
 
@@ -87,7 +94,11 @@ class AddCommand extends Command
         $text     = sprintf('Translation key "%s" already exists. Update value? [yn] ', $key);
         $question = new ConfirmationQuestion($text, false);
 
-        if (array_key_exists($key, $data) && !$helper->ask($input, $output, $question)) {
+        if (
+            false === $input->getOption('force') &&
+            array_key_exists($key, $data) &&
+            !$helper->ask($input, $output, $question)
+        ) {
             return;
         }
 

@@ -136,4 +136,28 @@ class AddCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty("", $this->commandTester->getDisplay());
         $this->assertEquals('John Doe', $values['name']);
     }
+
+    /**
+     * @covers ::execute
+     */
+    public function testExecuteWithForceWillOverwriteKeyWithoutAsking()
+    {
+        $values = Yaml::parse(file_get_contents($this->testFile));
+
+        $this->assertEquals('John Doe', $values['name']);
+
+        $this->commandTester->execute([
+            'command' => $this->command->getName(),
+            '--force' => null,
+            'file'    => $this->testFile,
+            'key'     => 'name',
+            'value'   => 'Matthew Loberg',
+        ]);
+
+        $expectedDisplay = sprintf('Translation key "name" added to "%s".', $this->testFile);
+        $values = Yaml::parse(file_get_contents($this->testFile));
+
+        $this->assertEquals($expectedDisplay, trim($this->commandTester->getDisplay()));
+        $this->assertEquals('Matthew Loberg', $values['name']);
+    }
 }
