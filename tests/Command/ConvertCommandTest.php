@@ -56,9 +56,9 @@ class ConvertCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(file_exists($targetFile));
 
         $this->commandTester->execute([
-            'command'  => $this->command->getName(),
-            'file'     => $this->testDir . '/validations.en.xliff',
-            '--format' => 'yml',
+            'command' => $this->command->getName(),
+            'file'    => $this->testDir . '/validations.en.xliff',
+            'format'  => 'yml',
         ]);
 
         $expectedDisplay = sprintf('File converted to %s.', $targetFile);
@@ -138,9 +138,9 @@ EOF;
     public function testExecuteWillThrowExceptionWhenConverterCannotBeFound()
     {
         $this->commandTester->execute([
-            'command'  => $this->command->getName(),
-            'file'     => $this->testDir . '/messages.en.yml',
-            '--format' => 'txt',
+            'command' => $this->command->getName(),
+            'file'    => $this->testDir . '/messages.en.yml',
+            'format'  => 'txt',
         ]);
     }
 
@@ -160,9 +160,9 @@ EOF;
         $this->command->getHelperSet()->set($question, 'question');
 
         $this->commandTester->execute([
-            'command'  => $this->command->getName(),
-            'file'     => $this->testDir . '/messages.en.yml',
-            '--format' => 'php',
+            'command' => $this->command->getName(),
+            'file'    => $this->testDir . '/messages.en.yml',
+            'format'  => 'php',
         ]);
 
         $this->assertEmpty("", $this->commandTester->getDisplay());

@@ -37,13 +37,7 @@ class ConvertCommand extends Command
             ->setName('convert')
             ->setDescription('Convert translation files')
             ->addArgument('file', InputArgument::REQUIRED, 'File to convert')
-            ->addOption(
-                'format',
-                'f',
-                InputOption::VALUE_OPTIONAL,
-                'Format to save as',
-                'xliff'
-            )
+            ->addArgument('format', InputArgument::OPTIONAL, 'Format to convert to (default: xliff)', 'xliff')
         ;
     }
 
@@ -52,7 +46,8 @@ class ConvertCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $file = $input->getArgument('file');
+        $file   = $input->getArgument('file');
+        $format = $input->getArgument('format');
 
         $filename = basename($file);
         $dir      = dirname($file);
@@ -80,10 +75,10 @@ class ConvertCommand extends Command
             new PhpConverter(),
         ]);
 
-        $converter = $converterResolver->resolve($input->getOption('format'));
+        $converter = $converterResolver->resolve($format);
 
         if (false === $converter) {
-            throw new \RuntimeException(sprintf('Unknown format "%s".', $input->getOption('format')));
+            throw new \RuntimeException(sprintf('Unknown format "%s".', $format));
         }
 
         $data = $processor->process($file);
