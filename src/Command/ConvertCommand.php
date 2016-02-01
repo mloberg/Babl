@@ -38,6 +38,12 @@ class ConvertCommand extends Command
             ->setDescription('Convert translation files')
             ->addArgument('file', InputArgument::REQUIRED, 'File to convert')
             ->addArgument('format', InputArgument::OPTIONAL, 'Format to convert to (default: xliff)', 'xliff')
+            ->addOption(
+                'force',
+                null,
+                InputOption::VALUE_NONE,
+                'Will overwrite key if it exists without asking.'
+            )
         ;
     }
 
@@ -89,7 +95,11 @@ class ConvertCommand extends Command
         $text = sprintf("Target file %s exists. Overwrite this file? [yn] ", $outFile);
         $question = new ConfirmationQuestion($text, false);
 
-        if (file_exists($outFile) && !$helper->ask($input, $output, $question)) {
+        if (
+            false === $input->getOption('force') &&
+            file_exists($outFile) &&
+            !$helper->ask($input, $output, $question)
+        ) {
             return;
         }
 

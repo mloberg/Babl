@@ -168,4 +168,25 @@ EOF;
         $this->assertEmpty("", $this->commandTester->getDisplay());
         $this->assertEquals($targetFileUpdatedTime, filemtime($targetFile));
     }
+
+    /**
+     * @covers ::execute
+     */
+    public function testExecuteWillOverwriteFileWithForce()
+    {
+        $targetFile = $this->testDir . '/validations.en.yml';
+
+        $content = 'foo: bar';
+        file_put_contents($targetFile, $content);
+
+        $this->commandTester->execute([
+            'command' => $this->command->getName(),
+            'file'    => $this->testDir . '/validations.en.xliff',
+            'format'  => 'yml',
+            '--force' => true,
+        ]);
+
+        $this->assertEmpty("", $this->commandTester->getDisplay());
+        $this->assertNotEquals(md5($content), md5_file($targetFile));
+    }
 }
