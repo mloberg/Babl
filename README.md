@@ -43,9 +43,13 @@ To see the current version of Babl
 
     $ babl --version
 
-Currently there is only one command to convert translation files between
-different formats. For example if you have `messages.en.yml`, but want an XLIFF.
+To convert translation files between different formats, use the `convert`
+command. For example if you have `messages.en.yml`, but want an XLIFF.
 
-    $ babl --format xliff app/Resources/translations/messages.en.yml
+    $ babl convert app/Resources/translations/messages.en.yml xliff
 
 The default format is `xliff`, but there is also `yml` and `php`.
+
+If you want to add a translation entry to a file, use the `add` command.
+
+    $ babl add app/Resources/translations/messages.en.yml greeting "Hello World!"
