@@ -18,7 +18,7 @@ class YamlConverter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(array $data, $source = null, $name = 'messages', $lang = 'en')
+    public function convert(array $data)
     {
         return Yaml::dump($data);
     }

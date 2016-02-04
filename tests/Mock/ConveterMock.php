@@ -34,7 +34,7 @@ class ConverterMock implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(array $data, $source = null, $name = 'messages', $lang = 'en')
+    public function convert(array $data)
     {
         // TODO: Implement convert() method.
     }

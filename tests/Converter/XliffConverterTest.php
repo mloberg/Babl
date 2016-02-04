@@ -35,11 +35,52 @@ class XliffConverterTest extends \PHPUnit_Framework_TestCase
         $expected = <<<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" target-language="en" datatype="plaintext" original="messages.en.xliff">
+  <file source-language="en" datatype="plaintext" original="file.ext">
     <body>
       <trans-unit id="foo">
         <source>foo</source>
         <target>bar</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
+
+EOF;
+
+        $this->assertEquals($expected, $this->converter->convert($data, 'messages.en.xliff'));
+    }
+
+    /**
+     * @covers ::convert
+     */
+    public function testConvertEscapesValuesCorrectly()
+    {
+        $data = [
+            'ampersand'   => '&',
+            'lessThan'    => '<',
+            'greaterThan' => '>',
+            'foo & bar'   => 'foobar',
+        ];
+        $expected = <<<EOF
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="ampersand">
+        <source>ampersand</source>
+        <target><![CDATA[&]]></target>
+      </trans-unit>
+      <trans-unit id="lessThan">
+        <source>lessThan</source>
+        <target><![CDATA[<]]></target>
+      </trans-unit>
+      <trans-unit id="greaterThan">
+        <source>greaterThan</source>
+        <target>&gt;</target>
+      </trans-unit>
+      <trans-unit id="foo &amp; bar">
+        <source><![CDATA[foo & bar]]></source>
+        <target>foobar</target>
       </trans-unit>
     </body>
   </file>

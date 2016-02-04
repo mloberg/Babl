@@ -16,43 +16,63 @@ class XliffConverter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(array $data, $source = null, $name = 'messages', $lang = 'en')
+    public function convert(array $data)
     {
-        $dom = new \DOMDocument('1.0');
-        $dom->formatOutput = true;
-        $dom->encoding = 'utf-8';
-        $dom->preserveWhiteSpace = true;
-        $rootEl = $dom->createElement('xliff');
-        $rootEl->setAttribute('version', '1.2');
-        $rootEl->setAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:1.2');
-        $dom->appendChild($rootEl);
+        $doc = new \DOMDocument('1.0', 'utf-8');
 
-        $fileEl = $dom->createElement('file');
-        $fileEl->setAttribute('source-language', $lang);
-        $fileEl->setAttribute('target-language', $lang);
-        $fileEl->setAttribute('datatype', 'plaintext');
+        $doc->formatOutput = true;
+        $doc->preserveWhiteSpace = true;
 
-        if ($source) {
-            $fileEl->setAttribute('original', $source);
-        }
+        $root = $doc->createElement('xliff');
+        $root->setAttribute('version', '1.2');
+        $root->setAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:1.2');
 
-        $bodyEl = $dom->createElement('body');
-        $fileEl->appendChild($bodyEl);
-        $rootEl->appendChild($fileEl);
+        $file = $doc->createElement('file');
+        $file->setAttribute('source-language', 'en');
+        $file->setAttribute('datatype', 'plaintext');
+        $file->setAttribute('original', 'file.ext');
+
+        $body = $doc->createElement('body');
+
+        $file->appendChild($body);
+        $root->appendChild($file);
+        $doc->appendChild($root);
 
         foreach ($data as $key => $value) {
-            $transUnitEl = $dom->createElement('trans-unit');
-            $transUnitEl->setAttribute('id', $key);
-            $sourceEl = $dom->createElement('source');
-            $sourceEl->nodeValue = $key;
-            $targetEl = $dom->createElement('target');
-            $targetEl->nodeValue = trim($value);
-            $transUnitEl->appendChild($sourceEl);
-            $transUnitEl->appendChild($targetEl);
-            $bodyEl->appendChild($transUnitEl);
+            $source = $doc->createElement('source');
+
+            if (preg_match('/[<&]/', $key)) {
+                $sourceText = $doc->createCDATASection($key);
+            } else {
+                $sourceText = $doc->createTextNode($key);
+            }
+
+            $source->appendChild($sourceText);
+
+            $target = $doc->createElement('target');
+
+            if (preg_match('/[<&]/', $value)) {
+                $targetText = $doc->createCDATASection($value);
+            } else {
+                $targetText = $doc->createTextNode($value);
+            }
+
+            $target->appendChild($targetText);
+
+            $transUnit = $doc->createElement('trans-unit');
+            $transUnit->setAttribute('id', $key);
+            $transUnit->appendChild($source);
+            $transUnit->appendChild($target);
+
+            $body->appendChild($transUnit);
         }
 
-        return $dom->saveXml();
+        $xml = $doc->saveXML();
+
+        // replace auto-closed tags
+        $xml = str_replace('<target/>', '<target></target>', $xml);
+
+        return $xml;
     }
 
     /**

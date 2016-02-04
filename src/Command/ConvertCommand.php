@@ -104,7 +104,7 @@ class ConvertCommand extends Command
         }
 
         // Save the file
-        file_put_contents($outFile, $converter->convert($data, $filename, $name, $language));
+        file_put_contents($outFile, $converter->convert($data));
 
         $output->writeln(sprintf('<info>File converted to %s.</info>', $outFile));
     }

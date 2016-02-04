@@ -16,14 +16,11 @@ interface ConverterInterface
     /**
      * Convert translation data
      *
-     * @param array       $data   Translation data
-     * @param string|null $source Translation source
-     * @param string      $name   Translation name
-     * @param string      $lang   Translation language
+     * @param array $data Translation data
      *
      * @return string Processed content
      */
-    public function convert(array $data, $source = null, $name = 'messages', $lang = 'en');
+    public function convert(array $data);
 
     /**
      * Returns whether this class supports the given format

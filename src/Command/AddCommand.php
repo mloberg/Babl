@@ -62,8 +62,6 @@ class AddCommand extends Command
         $filename = basename($file);
         $fileParts = explode('.', $filename);
         $extension = array_pop($fileParts);
-        $language  = array_pop($fileParts);
-        $name      = implode('.', $fileParts);
 
         if (empty($value)) {
             $question = new Question(sprintf('Translation value for "%s": ', $key), '');
@@ -104,7 +102,7 @@ class AddCommand extends Command
 
         $data[$key] = $value;
 
-        file_put_contents($file, $converter->convert($data, $filename, $name, $language));
+        file_put_contents($file, $converter->convert($data));
 
         $output->writeln(sprintf('<info>Translation key "%s" added to "%s".', $key, $file));
     }

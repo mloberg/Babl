@@ -16,7 +16,7 @@ class PhpConverter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(array $data, $source = null, $name = 'messages', $lang = 'en')
+    public function convert(array $data)
     {
         return sprintf("<?php\n\nreturn %s;\n", var_export($data, true));
     }
