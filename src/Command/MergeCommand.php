@@ -26,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Matthew Loberg <loberg.matt@gmail.com>
  */
-class MergeCommand extends AbstractCommand
+class MergeCommand extends Command
 {
     /**
      * {@inheritdoc}
