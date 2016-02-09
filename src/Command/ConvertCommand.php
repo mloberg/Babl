@@ -14,6 +14,7 @@ use Mlo\Babl\Processor\PhpProcessor;
 use Mlo\Babl\Processor\ProcessorResolver;
 use Mlo\Babl\Processor\XliffProcessor;
 use Mlo\Babl\Processor\YamlProcessor;
+use Mlo\Babl\Utility\FileInfo;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -55,13 +56,7 @@ class ConvertCommand extends Command
         $file   = $input->getArgument('file');
         $format = $input->getArgument('format');
 
-        $filename = basename($file);
-        $dir      = dirname($file);
-
-        $fileParts = explode('.', $filename);
-        $extension = array_pop($fileParts);
-        $language  = array_pop($fileParts);
-        $name      = implode('.', $fileParts);
+        $fileInfo = new FileInfo($file);
 
         $processorResolver = new ProcessorResolver([
             new YamlProcessor(),
@@ -69,10 +64,10 @@ class ConvertCommand extends Command
             new PhpProcessor(),
         ]);
 
-        $processor = $processorResolver->resolve($extension);
+        $processor = $processorResolver->resolve($fileInfo->getExtension());
 
         if (false === $processor) {
-            throw new \RuntimeException(sprintf('Unknown extension "%s".', $extension));
+            throw new \RuntimeException(sprintf('Unknown extension "%s".', $fileInfo->getExtension()));
         }
 
         $converterResolver = new ConverterResolver([
@@ -89,7 +84,13 @@ class ConvertCommand extends Command
 
         $data = $processor->process($file);
 
-        $outFile = sprintf('%s/%s.%s.%s', $dir, $name, $language, $converter->getExtension());
+        $outFile = sprintf(
+            '%s/%s.%s.%s',
+            $fileInfo->getDirectory(),
+            $fileInfo->getName(),
+            $fileInfo->getLanguage(),
+            $converter->getExtension()
+        );
 
         $helper = $this->getHelper('question');
         $text = sprintf("Target file %s exists. Overwrite this file? [yn] ", $outFile);

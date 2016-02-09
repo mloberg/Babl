@@ -105,7 +105,7 @@ class AddCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->commandTester->execute([
             'command' => $this->command->getName(),
-            'file'    => 'foobar.txt',
+            'file'    => 'foobar.en.txt',
             'key'     => 'foo',
             'value'   => 'bar',
         ]);

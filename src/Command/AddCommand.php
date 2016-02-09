@@ -14,6 +14,7 @@ use Mlo\Babl\Processor\PhpProcessor;
 use Mlo\Babl\Processor\ProcessorResolver;
 use Mlo\Babl\Processor\XliffProcessor;
 use Mlo\Babl\Processor\YamlProcessor;
+use Mlo\Babl\Utility\FileInfo;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -59,9 +60,7 @@ class AddCommand extends Command
         $value  = $input->getArgument('value');
         $helper = $this->getHelper('question');
 
-        $filename = basename($file);
-        $fileParts = explode('.', $filename);
-        $extension = array_pop($fileParts);
+        $fileInfo = new FileInfo($file);
 
         if (empty($value)) {
             $question = new Question(sprintf('Translation value for "%s": ', $key), '');
@@ -80,11 +79,11 @@ class AddCommand extends Command
             new PhpConverter(),
         ]);
 
-        $processor = $processorResolver->resolve($extension);
-        $converter = $converterResolver->resolve($extension);
+        $processor = $processorResolver->resolve($fileInfo->getExtension());
+        $converter = $converterResolver->resolve($fileInfo->getExtension());
 
         if (false === $processor || false === $converter) {
-            throw new \RuntimeException(sprintf('Unknown extension "%s".', $extension));
+            throw new \RuntimeException(sprintf('Unknown extension "%s".', $fileInfo->getExtension()));
         }
 
         $data = $processor->process($file);

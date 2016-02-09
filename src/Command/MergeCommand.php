@@ -14,6 +14,7 @@ use Mlo\Babl\Processor\PhpProcessor;
 use Mlo\Babl\Processor\ProcessorResolver;
 use Mlo\Babl\Processor\XliffProcessor;
 use Mlo\Babl\Processor\YamlProcessor;
+use Mlo\Babl\Utility\FileInfo;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Matthew Loberg <loberg.matt@gmail.com>
  */
-class MergeCommand extends Command
+class MergeCommand extends AbstractCommand
 {
     /**
      * {@inheritdoc}
@@ -65,23 +66,19 @@ class MergeCommand extends Command
         $data = [];
 
         foreach ($input->getArgument('files') as $file) {
-            $filename = basename($file);
-            $fileParts = explode('.', $filename);
-            $extension = array_pop($fileParts);
+            $fileInfo = new FileInfo($file);
 
-            $processor = $processorResolver->resolve($extension);
+            $processor = $processorResolver->resolve($fileInfo->getExtension());
 
             if (false === $processor) {
-                throw new \RuntimeException(sprintf('Unknown extension "%s".', $extension));
+                throw new \RuntimeException(sprintf('Unknown extension "%s".', $fileInfo->getExtension()));
             }
 
             $data = array_merge($data, $processor->process($file));
         }
 
         $target = $input->getOption('target') ?: $input->getArgument('files')[0];
-        $filename = basename($target);
-        $fileParts = explode('.', $filename);
-        $extension = array_pop($fileParts);
+        $fileInfo = new FileInfo($target);
 
         $converterResolver = new ConverterResolver([
             new XliffConverter(),
@@ -89,10 +86,10 @@ class MergeCommand extends Command
             new PhpConverter(),
         ]);
 
-        $converter = $converterResolver->resolve($extension);
+        $converter = $converterResolver->resolve($fileInfo->getExtension());
 
         if (false === $converter) {
-            throw new \RuntimeException(sprintf('Unknown extension "%s".', $extension));
+            throw new \RuntimeException(sprintf('Unknown extension "%s".', $fileInfo->getExtension()));
         }
 
         file_put_contents($target, $converter->convert($data));
