@@ -14,8 +14,6 @@ use Mlo\Babl\Processor\PhpProcessor;
 use Mlo\Babl\Processor\ProcessorResolver;
 use Mlo\Babl\Processor\XliffProcessor;
 use Mlo\Babl\Processor\YamlProcessor;
-use Mlo\Babl\Utility\FileInfo;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Matthew Loberg <loberg.matt@gmail.com>
  */
-class MergeCommand extends Command
+class MergeCommand extends AbstractCommand
 {
     /**
      * {@inheritdoc}
@@ -57,40 +55,17 @@ class MergeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $processorResolver = new ProcessorResolver([
-            new YamlProcessor(),
-            new XliffProcessor(),
-            new PhpProcessor(),
-        ]);
-
         $data = [];
 
         foreach ($input->getArgument('files') as $file) {
-            $fileInfo = new FileInfo($file);
-
-            $processor = $processorResolver->resolve($fileInfo->getExtension());
-
-            if (false === $processor) {
-                throw new \RuntimeException(sprintf('Unknown extension "%s".', $fileInfo->getExtension()));
-            }
-
+            $processor = $this->getProcessorForFile($file);
             $data = array_merge($data, $processor->process($file));
         }
 
         $target = $input->getOption('target') ?: $input->getArgument('files')[0];
-        $fileInfo = new FileInfo($target);
+        $extension = $this->getFileInfo($target)->getExtension();
 
-        $converterResolver = new ConverterResolver([
-            new XliffConverter(),
-            new YamlConverter(),
-            new PhpConverter(),
-        ]);
-
-        $converter = $converterResolver->resolve($fileInfo->getExtension());
-
-        if (false === $converter) {
-            throw new \RuntimeException(sprintf('Unknown extension "%s".', $fileInfo->getExtension()));
-        }
+        $converter = $this->getConverter($extension);
 
         file_put_contents($target, $converter->convert($data));
 

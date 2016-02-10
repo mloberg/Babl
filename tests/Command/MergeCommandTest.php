@@ -78,38 +78,4 @@ EOF;
         $this->assertTrue(file_exists($targetFile));
         $this->assertEquals($expectedContent, file_get_contents($targetFile));
     }
-
-    /**
-     * @covers ::execute
-     *
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Unknown extension "txt".
-     */
-    public function testExecuteThrowsExceptionOnInvalidSource()
-    {
-        $this->commandTester->execute([
-            'command'  => $this->command->getName(),
-            'files'    => [
-                $this->testDir . '/test.en.txt',
-            ],
-        ]);
-    }
-
-    /**
-     * @covers ::execute
-     *
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Unknown extension "txt".
-     */
-    public function testExecuteThrowsExceptionOnInvalidTarget()
-    {
-        $this->commandTester->execute([
-            'command'  => $this->command->getName(),
-            'files'    => [
-                $this->testDir . '/messages.en.yml',
-                $this->testDir . '/validations.en.xliff',
-            ],
-            '--target' => $this->testDir . '/merge.en.txt',
-        ]);
-    }
 }
