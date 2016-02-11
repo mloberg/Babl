@@ -6,16 +6,6 @@
 
 namespace Mlo\Babl\Command;
 
-use Mlo\Babl\Converter\ConverterResolver;
-use Mlo\Babl\Converter\PhpConverter;
-use Mlo\Babl\Converter\XliffConverter;
-use Mlo\Babl\Converter\YamlConverter;
-use Mlo\Babl\Processor\PhpProcessor;
-use Mlo\Babl\Processor\ProcessorResolver;
-use Mlo\Babl\Processor\XliffProcessor;
-use Mlo\Babl\Processor\YamlProcessor;
-use Mlo\Babl\Utility\FileInfo;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,7 +17,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  *
  * @author Matthew Loberg <loberg.matt@gmail.com>
  */
-class ConvertCommand extends Command
+class ConvertCommand extends AbstractCommand
 {
     /**
      * {@inheritdoc}
@@ -56,31 +46,10 @@ class ConvertCommand extends Command
         $file   = $input->getArgument('file');
         $format = $input->getArgument('format');
 
-        $fileInfo = new FileInfo($file);
+        $fileInfo = $this->getFileInfo($file);
 
-        $processorResolver = new ProcessorResolver([
-            new YamlProcessor(),
-            new XliffProcessor(),
-            new PhpProcessor(),
-        ]);
-
-        $processor = $processorResolver->resolve($fileInfo->getExtension());
-
-        if (false === $processor) {
-            throw new \RuntimeException(sprintf('Unknown extension "%s".', $fileInfo->getExtension()));
-        }
-
-        $converterResolver = new ConverterResolver([
-            new XliffConverter(),
-            new YamlConverter(),
-            new PhpConverter(),
-        ]);
-
-        $converter = $converterResolver->resolve($format);
-
-        if (false === $converter) {
-            throw new \RuntimeException(sprintf('Unknown format "%s".', $format));
-        }
+        $processor = $this->getProcessor($fileInfo->getExtension());
+        $converter = $this->getConverter($format);
 
         $data = $processor->process($file);
 

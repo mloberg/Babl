@@ -117,35 +117,6 @@ EOF;
 
     /**
      * @covers ::execute
-     *
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Unknown extension "txt".
-     */
-    public function testExecuteWillThrowExceptionWhenProcessorCannotBeFound()
-    {
-        $this->commandTester->execute([
-            'command' => $this->command->getName(),
-            'file'    => 'foobar.en.txt',
-        ]);
-    }
-
-    /**
-     * @covers ::execute
-     *
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Unknown format "txt".
-     */
-    public function testExecuteWillThrowExceptionWhenConverterCannotBeFound()
-    {
-        $this->commandTester->execute([
-            'command' => $this->command->getName(),
-            'file'    => $this->testDir . '/messages.en.yml',
-            'format'  => 'txt',
-        ]);
-    }
-
-    /**
-     * @covers ::execute
      */
     public function testExecuteWillNotOverwriteFileWithoutAsking()
     {
