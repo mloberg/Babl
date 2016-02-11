@@ -6,14 +6,6 @@
 
 namespace Mlo\Babl\Command;
 
-use Mlo\Babl\Converter\ConverterResolver;
-use Mlo\Babl\Converter\PhpConverter;
-use Mlo\Babl\Converter\XliffConverter;
-use Mlo\Babl\Converter\YamlConverter;
-use Mlo\Babl\Processor\PhpProcessor;
-use Mlo\Babl\Processor\ProcessorResolver;
-use Mlo\Babl\Processor\XliffProcessor;
-use Mlo\Babl\Processor\YamlProcessor;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
