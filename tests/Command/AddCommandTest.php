@@ -97,22 +97,6 @@ class AddCommandTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers ::execute
-     *
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Unknown extension "txt".
-     */
-    public function testExecuteWillThrowExceptionWhenProcessorCannotBeFound()
-    {
-        $this->commandTester->execute([
-            'command' => $this->command->getName(),
-            'file'    => 'foobar.en.txt',
-            'key'     => 'foo',
-            'value'   => 'bar',
-        ]);
-    }
-
-    /**
-     * @covers ::execute
      */
     public function testExecuteWillNotOverwriteKeyWithoutAsking()
     {

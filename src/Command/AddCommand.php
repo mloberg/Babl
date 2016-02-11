@@ -6,16 +6,6 @@
 
 namespace Mlo\Babl\Command;
 
-use Mlo\Babl\Converter\ConverterResolver;
-use Mlo\Babl\Converter\PhpConverter;
-use Mlo\Babl\Converter\XliffConverter;
-use Mlo\Babl\Converter\YamlConverter;
-use Mlo\Babl\Processor\PhpProcessor;
-use Mlo\Babl\Processor\ProcessorResolver;
-use Mlo\Babl\Processor\XliffProcessor;
-use Mlo\Babl\Processor\YamlProcessor;
-use Mlo\Babl\Utility\FileInfo;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,7 +18,7 @@ use Symfony\Component\Console\Question\Question;
  *
  * @author Matthew Loberg <loberg.matt@gmail.com>
  */
-class AddCommand extends Command
+class AddCommand extends AbstractCommand
 {
     /**
      * {@inheritdoc}
@@ -60,31 +50,15 @@ class AddCommand extends Command
         $value  = $input->getArgument('value');
         $helper = $this->getHelper('question');
 
-        $fileInfo = new FileInfo($file);
-
         if (empty($value)) {
             $question = new Question(sprintf('Translation value for "%s": ', $key), '');
             $value = $helper->ask($input, $output, $question);
         }
 
-        $processorResolver = new ProcessorResolver([
-            new YamlProcessor(),
-            new XliffProcessor(),
-            new PhpProcessor(),
-        ]);
+        $fileInfo = $this->getFileInfo($file);
 
-        $converterResolver = new ConverterResolver([
-            new XliffConverter(),
-            new YamlConverter(),
-            new PhpConverter(),
-        ]);
-
-        $processor = $processorResolver->resolve($fileInfo->getExtension());
-        $converter = $converterResolver->resolve($fileInfo->getExtension());
-
-        if (false === $processor || false === $converter) {
-            throw new \RuntimeException(sprintf('Unknown extension "%s".', $fileInfo->getExtension()));
-        }
+        $processor = $this->getProcessor($fileInfo->getExtension());
+        $converter = $this->getConverter($fileInfo->getExtension());
 
         $data = $processor->process($file);
 
