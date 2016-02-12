@@ -49,13 +49,33 @@ class AbstractCommand extends Command
     }
 
     /**
+     * Get ProcessorResolver
+     *
+     * @return Processor\ProcessorResolver
+     */
+    public function getProcessorResolver()
+    {
+        return $this->processorResolver;
+    }
+
+    /**
+     * Get ConverterResolver
+     *
+     * @return Converter\ConverterResolver
+     */
+    public function getConverterResolver()
+    {
+        return $this->converterResolver;
+    }
+
+    /**
      * Get file info
      *
      * @param string $file
      *
      * @return FileInfo
      */
-    protected function getFileInfo($file)
+    public function getFileInfo($file)
     {
         return new FileInfo($file);
     }
@@ -68,7 +88,7 @@ class AbstractCommand extends Command
      * @return Processor\ProcessorInterface
      * @throws \InvalidArgumentException If no processor was found for format
      */
-    protected function getProcessor($format)
+    public function getProcessor($format)
     {
         $processor = $this->processorResolver->resolve($format);
 
@@ -86,7 +106,7 @@ class AbstractCommand extends Command
      *
      * @return Processor\ProcessorInterface
      */
-    protected function getProcessorForFile($file)
+    public function getProcessorForFile($file)
     {
         $fileInfo = $this->getFileInfo($file);
 
@@ -101,7 +121,7 @@ class AbstractCommand extends Command
      * @return Converter\ConverterInterface
      * @throws \InvalidArgumentException If no converter was found for format
      */
-    protected function getConverter($format)
+    public function getConverter($format)
     {
         $converter = $this->converterResolver->resolve($format);
 
