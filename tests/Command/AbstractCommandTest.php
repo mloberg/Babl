@@ -72,7 +72,7 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProcessor()
     {
-        $this->markTestIncomplete('TODO');
+        $this->assertInstanceOf('Mlo\Babl\Processor\ProcessorInterface', $this->command->getProcessor('yaml'));
     }
 
     /**
@@ -83,7 +83,7 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProcessorThrowsExceptionOnUnknownFormat()
     {
-        $this->markTestIncomplete('TODO');
+        $this->command->getProcessor('txt');
     }
 
     /**
@@ -91,7 +91,9 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProcessorForFile()
     {
-        $this->markTestIncomplete('TODO');
+        $processor = $this->command->getProcessorForFile('messages.en.yml');
+
+        $this->assertInstanceOf('Mlo\Babl\Processor\ProcessorInterface', $processor);
     }
 
     /**
@@ -99,7 +101,7 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetConverter()
     {
-        $this->markTestIncomplete('TODO');
+        $this->assertInstanceOf('Mlo\Babl\Converter\ConverterInterface', $this->command->getConverter('yaml'));
     }
 
     /**
@@ -110,6 +112,6 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetConverterThrowsExceptionOnUnknownFormat()
     {
-        $this->markTestIncomplete('TODO');
+        $this->command->getConverter('txt');
     }
 }
