@@ -53,3 +53,8 @@ The default format is `xliff`, but there is also `yml` and `php`.
 If you want to add a translation entry to a file, use the `add` command.
 
     $ babl add app/Resources/translations/messages.en.yml greeting "Hello World!"
+
+You can merge multiple translation files together. If the `--target` option is
+not set, it will use the first file.
+
+    $ babl merge --target translations.en.xliff messges.en.yml validator.en.xliff emails.en.php
