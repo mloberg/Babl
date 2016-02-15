@@ -6,7 +6,7 @@ use Symfony\Component\Console\Application;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$application = new Application('babl', '0.3.0');
+$application = new Application('babl', '0.4.0');
 $application->addCommands([
     new Command\ConvertCommand(),
     new Command\AddCommand(),
