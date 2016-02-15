@@ -10,5 +10,11 @@
         "sha1": "4d696d23a1753ba10a75e6ccd898bf7bbeb8c113",
         "url": "https://github.com/mloberg/Babl/releases/download/v0.3.0/babl.phar",
         "version": "0.3.0"
-    }
+    },
+	{
+		"name": "babl.phar",
+		"sha1": "1a0951cebe051a22337377e391b31cff16b4df51",
+		"url": "https://github.com/mloberg/Babl/releases/download/v0.4.0/babl.phar",
+		"version": "0.4.0"
+	}
 ]
